@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love ✨</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Montserrat',sans-serif;
+    min-height:100vh;
+    background:linear-gradient(120deg,#fde2e4,#e4c1f9,#d0f4de);
+    background-size:300% 300%;
+    animation:aurora 20s ease infinite;
+    overflow-x:hidden;
+}
+
+@keyframes aurora{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.glass{
+    background:rgba(255,255,255,0.65);
+    backdrop-filter:blur(18px);
+    border-radius:22px;
+    box-shadow:0 20px 50px rgba(0,0,0,.12);
+}
+
+/* PASSWORD */
+.password-modal,
+.welcome-screen{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+}
+
+.password-content{
+    padding:40px;
+    max-width:380px;
+    width:90%;
+    text-align:center;
+}
+
+.password-input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    margin-bottom:15px;
+    text-align:center;
+}
+
+.submit-btn{
+    padding:12px 28px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(135deg,#c77dff,#ffafcc);
+    color:white;
+    cursor:pointer;
+}
+
+/* WELCOME */
+.welcome-screen{
+    z-index:90;
+    transition:opacity 1s ease;
+}
+
+.welcome-message{
+    font-family:'Playfair Display',serif;
+    font-size:42px;
+}
+
+/* MAIN */
+.container{
+    max-width:900px;
+    margin:60px auto;
+    padding:20px;
+    display:none;
+}
+
+.tabs{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+
+.tab{
+    padding:12px 24px;
+    border-radius:30px;
+    border:none;
+    cursor:pointer;
+    background:rgba(255,255,255,.7);
+}
+
+.tab.active{background:white;}
+
+.content-area{padding:35px;}
+
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* LETTER */
+.letter{
+    padding:25px;
+    background:rgba(255,255,255,.75);
+    border-radius:18px;
+    cursor:pointer;
+}
+
+.letter-content{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .6s ease;
+}
+
+.letter.expanded .letter-content{max-height:600px;}
+
+/* MUSIC */
+.song{
+    display:flex;
+    gap:12px;
+    padding:15px;
+    margin-bottom:15px;
+    background:rgba(255,255,255,.7);
+    border-radius:15px;
+    text-decoration:none;
+    color:inherit;
+}
+
+/* NOTES */
+.note{
+    padding:14px;
+    margin-bottom:10px;
+    background:rgba(255,255,255,.7);
+    border-left:4px solid #c77dff;
+}
+
+/* GALLERY */
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:15px;
+}
+
+.gallery img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:18px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD -->
+<div class="password-modal" id="passwordModal">
+    <div class="password-content glass">
+        <h2>Just for you 🌷</h2>
+        <input id="passwordInput" class="password-input" type="password">
+        <button id="submitPassword" class="submit-btn">Enter</button>
+    </div>
+</div>
+
+<!-- WELCOME -->
+<div class="welcome-screen" id="welcomeScreen">
+    <div class="welcome-message">Relax… you’re safe here 🤍</div>
+</div>
+
+<!-- MAIN -->
+<div class="container" id="mainContent">
+    <div class="tabs">
+        <button class="tab active" data-tab="love">❤️ Love</button>
+        <button class="tab" data-tab="music">🎵 Music</button>
+        <button class="tab" data-tab="notes">📝 Notes</button>
+        <button class="tab" data-tab="gallery">🌸 Gallery</button>
+    </div>
+
+    <div class="content-area glass">
+        <div class="tab-content active" id="love">
+            <div class="letter" id="loveLetter">
+                <h3>For My Baby Garima</h3>
+                <div class="letter-content">
+                    <p>I know you’re tired. This space is only for calm and love.</p>
+                    <p>— Kushal</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="music">
+            <a class="song" href="https://www.youtube.com/watch?v=JQix0eKwlww" target="_blank">🎵 8 Letters</a>
+            <a class="song" href="https://www.youtube.com/watch?v=CNgPob9hPO4" target="_blank">🎵 Paaro</a>
+        </div>
+
+        <div class="tab-content" id="notes">
+            <div class="note">Drink water 💧</div>
+            <div class="note">I’m proud of you 💕</div>
+        </div>
+
+        <div class="tab-content" id="gallery">
+            <div class="gallery">
+                <img src="1352.jpg">
+                <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const modal=document.getElementById("passwordModal");
+const welcome=document.getElementById("welcomeScreen");
+const main=document.getElementById("mainContent");
+
+document.getElementById("submitPassword").onclick=()=>{
+    const v=document.getElementById("passwordInput").value.toLowerCase();
+    if(v==="tulip"||v==="rose"){
+        modal.style.display="none";
+
+        setTimeout(()=>{
+            welcome.style.opacity=0;
+            welcome.style.pointerEvents="none";   // 🔥 FIX
+            setTimeout(()=>{
+                welcome.style.display="none";     // 🔥 FIX
+                main.style.display="block";
+            },1000);
+        },1500);
+    }
+};
+
+/* TABS */
+document.querySelectorAll(".tab").forEach(tab=>{
+    tab.onclick=()=>{
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.tab).classList.add("active");
+    };
+});
+
+/* LETTER */
+document.getElementById("loveLetter").onclick=function(){
+    this.classList.toggle("expanded");
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kusal's Love Page 💓</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: linear-gradient(to top right, #ffc9de, #ffd1dc);
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    position:relative;
+  }
+
+  #content {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    z-index:5;
+  }
+
+  .question {
+    font-size:2.5rem;
+    color:black;
+    text-shadow:1px 1px 2px #ff69b4;
+    opacity:0;
+    transform:scale(0.8);
+    animation:showQuestion 2s forwards;
+    padding:20px;
+    max-width:90%;
+  }
+
+  @keyframes showQuestion { to { opacity:1; transform:scale(1);} }
+
+  .sticker {
+    width:150px;
+    height:150px;
+    margin-top:20px;
+    animation:popSticker 1s ease forwards;
+    opacity:0;
+    object-fit:contain;
+  }
+
+  @keyframes popSticker { to { opacity:1; transform:scale(1.1);} }
+
+  .final {
+    font-size:3rem;
+    color:black;
+    text-shadow:2px 2px 8px red;
+    text-align:center;
+    display:none;
+    opacity:0;
+    transform:scale(0.8);
+  }
+
+  @keyframes finalReveal { to {opacity:1; transform:scale(1);} }
+
+  button {
+    margin-top:20px;
+    padding:10px 30px;
+    background:#ff4d6d;
+    border:none;
+    border-radius:30px;
+    color:white;
+    font-size:1.2rem;
+    cursor:pointer;
+    box-shadow:2px 2px 10px #ff8fa3;
+  }
+
+  .heart {
+    width:20px;
+    height:20px;
+    background-color:black;
+    position:absolute;
+    top:100%;
+    transform:rotate(-45deg);
+    animation:floatUp 8s linear infinite;
+    opacity:0;
+    z-index:0;
+  }
+
+  .heart::before,
+  .heart::after {
+    content:"";
+    width:20px;
+    height:20px;
+    background-color:black;
+    border-radius:50%;
+    position:absolute;
+  }
+  .heart::before { top:-10px; left:0; }
+  .heart::after { left:10px; top:0; }
+
+  @keyframes floatUp {
+    0% { top:100%; opacity:0; transform:scale(0.5) rotate(-45deg);}
+    10% {opacity:1;}
+    100% {top:-10%; opacity:0; transform:scale(1.2) rotate(360deg);}
+  }
+
+  /* Love words for YES button */
+  #loveWords {
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:4;
+  }
+
+  .love {
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-225px 0 0 -225px;
+    --i:1;
+  }
+
+  .love_word {
+    color:#ea80b0;
+    font-size:1.4rem;
+    transform:translateY(-100%) rotateZ(-30deg);
+    text-shadow:0 0 10px #fff;
+    letter-spacing:2px;
+    white-space:nowrap;
+  }
+
+  .love_horizontal {
+    animation: horizontal 10000ms infinite alternate ease-in-out;
+    animation-delay: calc(var(--i) * -300ms);
+  }
+
+  .love_vertical {
+    animation: vertical 20000ms infinite linear;
+    animation-delay: calc(var(--i) * -300ms);
+  }
+
+  @keyframes horizontal { from {transform:translateX(0);} to {transform:translateX(450px);} }
+  @keyframes vertical {
+    0%{transform:translateY(180px);}
+    10%{transform:translateY(45px);}
+    15%{transform:translateY(4.5px);}
+    18%{transform:translateY(0);}
+    20%{transform:translateY(4.5px);}
+    22%{transform:translateY(34.61538px);}
+    24%{transform:translateY(64.28571px);}
+    25%{transform:translateY(112.5px);}
+    26%{transform:translateY(64.28571px);}
+    28%{transform:translateY(34.61538px);}
+    30%{transform:translateY(4.5px);}
+    32%{transform:translateY(0);}
+    35%{transform:translateY(4.5px);}
+    40%{transform:translateY(45px);}
+    50%{transform:translateY(180px);}
+    71%{transform:translateY(428.57143px);}
+    72.5%{transform:translateY(441.17647px);}
+    75%{transform:translateY(450px);}
+    77.5%{transform:translateY(441.17647px);}
+    79%{transform:translateY(428.57143px);}
+    100%{transform:translateY(180px);}
+  }
+
+  /* NO response container */
+  #noMessage { display:none; flex-direction:column; align-items:center; margin-top:20px; }
+  #noMessage img { width:150px; height:150px; object-fit:contain; margin-bottom:15px; }
+
+  /* Final image + message container */
+  #finalImageContainer {
+    display:none; margin-top:20px; text-align:center;
+  }
+  #finalImageContainer img { width:250px; height:250px; object-fit:contain; margin-bottom:15px; opacity:0; transition:opacity 1s;}
+  #finalImageContainer p { color:black; font-size:1.5rem; opacity:0; transition:opacity 1s;}
+  #finalImageContainer button { display:block; margin:10px auto; }
+
+  /* Absolute final after lock */
+  #absoluteEndContainer {
+    display:none; text-align:center; margin-top:20px;
+  }
+  #absoluteEndContainer img { width:250px; height:250px; object-fit:contain; margin-bottom:15px; opacity:0; transition:opacity 1s;}
+  #absoluteEndContainer p { color:black; font-size:1.5rem; opacity:0; transition:opacity 1s;}
+  #absoluteEndContainer button { margin-top:20px; }
+</style>
+</head>
+<body>
+
+<div id="content">
+  <div class="question" id="question"></div>
+  <img src="" class="sticker hidden" id="sticker" />
+  <div class="final" id="final">𓆩 Will you marry me???? 𓆩🥺🫶🏻💞𓆪</div>
+  <div class="final" id="response"></div>
+  <button id="nextBtn">Next</button>
+</div>
+
+<div id="loveWords"></div>
+
+<!-- NO response container -->
+<div id="noMessage">
+  <img src="cute-crying-cat-vector_844724-1430.avif" alt="thinking cute"/>
+  <p>Huhu!!!😭 please rethink...😭</p>
+  <button id="rethinkBtn">Take me back🥹</button>
+  <button id="finalDecisionBtn">Final Decision😔?</button>
+</div>
+
+<!-- Final image + message -->
+<div id="finalImageContainer">
+  <img src="download (1).jpg" alt="final decision" id="finalImage"/>
+  <p id="finalMessage">Mwahahaha!! no-say you gotta rethink!!😾</p>
+  <button id="takeMeBackBtn">Wait, sorry! Take me back😼</button>
+  <button id="lockDecisionBtn">Nope, I won't change my decision😶</button>
+</div>
+
+<!-- Absolute final after lock -->
+<div id="absoluteEndContainer">
+  <img src="download.jpg" alt="absolute end" id="absoluteEndImage"/>
+  <p id="absoluteEndMessage">How could this happen!! 😭</p>
+  <button id="backFromAbsoluteBtn">Geez, take me back 😅</button>
+</div>
+
+<script>
+const questions = [
+  "Hey you,My baby!! 🌸",
+  "Yes you, My beloved Garima_sweetie-pie!! 🫶🏻💌",
+  "Ahmm,I know this is sudden but  i would like to ask a question!!? 🥹🎀",
+  "will you, ahmm !!! you know? 💓"
+];
+const stickers = ["/1.png","/2.png","/3.png","/4.png"];
+let step = 0;
+
+const questionEl = document.getElementById('question');
+const stickerEl = document.getElementById('sticker');
+const finalEl = document.getElementById('final');
+const nextBtn = document.getElementById('nextBtn');
+const content = document.getElementById('content');
+const responseEl = document.getElementById('response');
+const loveWords = document.getElementById('loveWords');
+const noMessage = document.getElementById('noMessage');
+const rethinkBtn = document.getElementById('rethinkBtn');
+const finalDecisionBtn = document.getElementById('finalDecisionBtn');
+const finalImageContainer = document.getElementById('finalImageContainer');
+const finalImage = document.getElementById('finalImage');
+const finalMessage = document.getElementById('finalMessage');
+const takeMeBackBtn = document.getElementById('takeMeBackBtn');
+const lockDecisionBtn = document.getElementById('lockDecisionBtn');
+const absoluteEndContainer = document.getElementById('absoluteEndContainer');
+const backFromAbsoluteBtn = document.getElementById('backFromAbsoluteBtn');
+
+function showStep() {
+  if(step < questions.length){
+    questionEl.textContent = questions[step];
+    stickerEl.src = stickers[step];
+    stickerEl.classList.remove('hidden');
+  } else {
+    questionEl.style.display='none';
+    stickerEl.style.display='none';
+    nextBtn.style.display='none';
+    setTimeout(()=>{ finalEl.style.display='block'; finalEl.style.animation='finalReveal 2s forwards'; },500);
+    setTimeout(()=>{
+      const btnWrap=document.createElement('div');
+      btnWrap.style.display='flex';
+      btnWrap.style.gap='20px';
+      btnWrap.style.marginTop='25px';
+      const yesBtn=document.createElement('button'); yesBtn.textContent='YES 💖';
+      const noBtn=document.createElement('button'); noBtn.textContent='NO 🥺'; noBtn.style.background='#6c757d';
+      yesBtn.onclick=()=>{ btnWrap.remove(); finalEl.style.display='none'; responseEl.style.display='none';
+        for(let i=1;i<=100;i++){ 
+          const love=document.createElement('div'); love.className='love'; love.style.setProperty('--i',i); 
+          const h=document.createElement('div'); h.className='love_horizontal'; 
+          const v=document.createElement('div'); v.className='love_vertical'; 
+          const word=document.createElement('div'); word.className='love_word'; 
+          word.textContent='yaah🥳!! I love you babe💗'; v.appendChild(word); h.appendChild(v); love.appendChild(h); loveWords.appendChild(love); 
+        }
+      };
+      noBtn.onclick=()=>{ btnWrap.remove(); finalEl.style.display='none'; noMessage.style.display='flex'; };
+      btnWrap.appendChild(yesBtn); btnWrap.appendChild(noBtn); content.appendChild(btnWrap);
+    },2500);
+  }
+  step++;
+}
+
+nextBtn.addEventListener('click', showStep);
+showStep();
+
+// rethink button
+rethinkBtn.onclick = ()=>{ noMessage.style.display='none'; finalEl.style.display='block'; finalEl.style.animation='finalReveal 2s forwards';
+  setTimeout(()=>{
+    const btnWrap=document.createElement('div');
+    btnWrap.style.display='flex'; btnWrap.style.gap='20px'; btnWrap.style.marginTop='25px';
+    const yesBtn=document.createElement('button'); yesBtn.textContent='YES 💖';
+    const noBtn=document.createElement('button'); noBtn.textContent='NO 🥺'; noBtn.style.background='#6c757d';
+    yesBtn.onclick=()=>{ btnWrap.remove(); finalEl.style.display='none'; responseEl.style.display='none';
+      for(let i=1;i<=100;i++){ 
+        const love=document.createElement('div'); love.className='love'; love.style.setProperty('--i',i); 
+        const h=document.createElement('div'); h.className='love_horizontal'; 
+        const v=document.createElement('div'); v.className='love_vertical'; 
+        const word=document.createElement('div'); word.className='love_word'; 
+        word.textContent='yaah🥳!! I love you babe💗'; v.appendChild(word); h.appendChild(v); love.appendChild(h); loveWords.appendChild(love); 
+      }
+    };
+    noBtn.onclick=()=>{ btnWrap.remove(); finalEl.style.display='none'; noMessage.style.display='flex'; };
+    btnWrap.appendChild(yesBtn); btnWrap.appendChild(noBtn); content.appendChild(btnWrap);
+  },500);
+};
+
+// final decision button
+finalDecisionBtn.onclick=()=>{ noMessage.style.display='none'; finalImageContainer.style.display='block'; setTimeout(()=>{ finalImage.style.opacity=1; finalMessage.style.opacity=1; },100); };
+
+// take me back button
+takeMeBackBtn.onclick = ()=>{ finalImageContainer.style.display='none'; noMessage.style.display='flex'; };
+
+// lock decision button
+lockDecisionBtn.onclick = ()=>{ finalImageContainer.style.display='none'; absoluteEndContainer.style.display='block'; setTimeout(()=>{ 
+  absoluteEndContainer.querySelector('img').style.opacity=1;
+  absoluteEndContainer.querySelector('p').style.opacity=1;
+},100); };
+
+// back from absolute final
+backFromAbsoluteBtn.onclick = ()=>{ 
+  absoluteEndContainer.style.display='none';
+  finalImageContainer.style.display='block';
+  setTimeout(()=>{ 
+    finalImage.style.opacity=1; finalMessage.style.opacity=1;
+  },100);
+};
+
+// Floating hearts
+for(let i=0;i<30;i++){
+  const heart=document.createElement('div');
+  heart.classList.add('heart');
+  heart.style.left=Math.random()*100+'vw';
+  heart.style.animationDuration=(5+Math.random()*5)+'s';
+  heart.style.animationDelay=Math.random()*5+'s';
+  document.body.appendChild(heart);
+}
+</script>
+</body>
+</html>
